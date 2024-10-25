@@ -1,8 +1,19 @@
+/*@property --my-color {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #ff0000;
+}
+
+.my-component {
+    background-color: var(--my-color);
+}*/
+
+
 :root {
-    --primaryColor: #007bff;
-    --secondaryColor: #6c757d;
-    --sidebarColor: #f8f9fa;
-    --navbarColor: #98ff00;
+    --primaryColor: #007bff; /*#007bff*/
+    --secondaryColor: #6c757d; /*#6c757d*/
+    --sidebarColor: #f8f9fa; /*#f8f9fa*/
+    --navbarColor: #98ff00; /*#98ff00*/
 }
 
 body {

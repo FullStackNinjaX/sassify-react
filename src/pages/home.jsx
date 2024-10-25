@@ -34,20 +34,27 @@ function Homepage() {
         }
     }*/
 
+    /*window.CSS.registerProperty({
+        name: "--primaryColor",
+        syntax: "<color>",
+        inherits: false,
+        initialValue: "aqua",
+    });*/
+
+
     const applySassVariables = (variables) => {
         Object.entries(variables).forEach(([key, value]) => {
             document.documentElement.style.setProperty(`--${key}`, value);
         });
     };
 
-    async function onStyleChange(style) {
-        console.log('Selected style:', style);
-        // await fetchSassVariables(style.value);
-        const styleId = style.value;
-        console.log('Style ID:', styleId);
 
+    async function onStyleChange(style) {
         try {
-            await axios.post('http://localhost:8082/cookies/', {styleId});
+            const styleId = style.value;
+            await axios.post('http://localhost:8082/cookies/create', styleId, {withCredentials: true});
+
+            // await axios.post('http://localhost:8082/cookies/?styleId=', {styleId});
             const response = await axios.get('http://localhost:8082/cookies/fetch-cookies');
             setSassVariables(response.data);
             applySassVariables(response.data);
@@ -56,19 +63,30 @@ function Homepage() {
         }
     }
 
+
     useEffect(() => {
         async function fetchData() {
-            // await fetchSassVariables();
-            // await fetchSassVariables(1);
-            // document.documentElement.style.setProperty('--backgroundColor', '#e7bf3c');
-            // document.documentElement.style.setProperty('--secondaryColor', '#f10ddf');
+            /* const properties = [
+                 { name: "--primaryColor", syntax: "<color>", inherits: false, initialValue: "#007bff" },
+                 { name: "--secondaryColor", syntax: "<color>", inherits: false, initialValue: "#6c757d" },
+                 { name: "--sidebarColor", syntax: "<color>", inherits: false, initialValue: "#f8f9fa" },
+                 { name: "--navbarColor", syntax: "<color>", inherits: false, initialValue: "#98ff00" },
+                 { name: "--backgroundColor", syntax: "<color>", inherits: false, initialValue: "#e7bf3c" },
+                 // Add other properties if needed
+             ];
+
+             properties.forEach(prop => {
+                 try {
+                     window.CSS.registerProperty(prop);
+                 } catch (error) {
+                     console.warn(`Property ${prop.name} is already registered.`);
+                 }
+             });*/
             setIsLoading(false);
         }
-
         fetchData();
-
-
     }, []);
+
 
     if (isLoading) {
         return <div>Loading...</div>
