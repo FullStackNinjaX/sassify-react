@@ -1,0 +1,90 @@
+:root {
+    --primaryColor: #007bff;
+    --secondaryColor: #6c757d;
+    --sidebarColor: #f8f9fa;
+    --navbarColor: #98ff00;
+}
+
+body {
+    margin: 0;
+    font-family: Popins, sans-serif;
+}
+
+.navbar {
+    background-color: var(--navbarColor);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.navbar-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-links li {
+    display: inline;
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-links a:hover {
+    text-shadow: #f7f9fb 0 0 7px;
+}
+
+.app-container {
+    display: flex;
+    min-height: calc(100vh - 60px);
+}
+
+.sidebar {
+    width: 200px;
+    background-color: var(--sidebarColor);
+    padding: 20px;
+}
+
+.sidebar-links {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-links li {
+    margin-bottom: 10px;
+}
+
+.sidebar-links a {
+    color: var(--secondaryColor);
+    text-decoration: none;
+}
+
+.sidebar-links a:hover {
+    text-shadow: #f7f9fb 0 0 7px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.footer {
+    background-color: var(--primaryColor);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
