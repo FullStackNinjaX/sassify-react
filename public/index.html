@@ -1,13 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <link rel="icon" type="image/svg+xml" href="/1.svg"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Sassify-Style Your Web, Straight from the Source!</title>
+    <title>Your React App</title>
+
+    <script>
+        // Function to get cookie value by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Fetch themeId from cookies
+        const themeId = getCookie('THEME_ID') || '1'; // Default to '1' if not set
+
+        // Fetch CSS variables from the new Spring Boot endpoint
+        fetch(`http://localhost:8080/rest/styles/css/${themeId}`)
+            .then(response => response.text())
+            .then(css => {
+                const styleTag = document.createElement('style');
+                styleTag.textContent = css;
+                document.head.appendChild(styleTag);
+            })
+            .catch(error => console.error('Error loading CSS variables:', error));
+    </script>
 </head>
 <body>
 <div id="root"></div>
-<script type="module" src="/src/index.js"></script>
 </body>
 </html>
