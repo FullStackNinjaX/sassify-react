@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Your React App</title>
-
+    <script src="https://kit.fontawesome.com/1ef08f46c3.js" crossorigin="anonymous"></script>
     <script>
         // Function to get cookie value by name
         function getCookie(name) {
@@ -13,18 +13,36 @@
             if (parts.length === 2) return parts.pop().split(';').shift();
         }
 
-        // Fetch themeId from cookies
-        const themeId = getCookie('THEME_ID') || '1'; // Default to '1' if not set
+        // Function to apply fetched CSS variables to the root element
+        function applyCssVariables(css) {
+            const root = document.documentElement;
+            const cssVariables = css.split(';').filter(line => line.includes('--'));
 
-        // Fetch CSS variables from the new Spring Boot endpoint
-        fetch(`http://localhost:8080/rest/styles/css/${themeId}`)
+            cssVariables.forEach(variable => {
+                const [key, value] = variable.split(':');
+                if (key && value) {
+                    root.style.setProperty(key.trim(), value.trim());
+                }
+            });
+        }
+
+        // Set the theme based on the cookie value or default to '1'
+        const themeId = getCookie('THEME_ID') || '1';
+
+        // Fetch and apply CSS variables on initial load
+        fetch(`http://localhost:8082/rest/styles/css/${themeId}`)
             .then(response => response.text())
-            .then(css => {
-                const styleTag = document.createElement('style');
-                styleTag.textContent = css;
-                document.head.appendChild(styleTag);
-            })
+            .then(css => applyCssVariables(css))
             .catch(error => console.error('Error loading CSS variables:', error));
+
+        // Function to set theme cookie and update CSS variables globally
+        function setThemeAndReload(styleId) {
+            fetch(`http://localhost:8082/cookies/create?styleId=${styleId}`, {method: 'POST', credentials: 'include'})
+                .then(() => fetch(`http://localhost:8082/rest/styles/css/${styleId}`))
+                .then(response => response.text())
+                .then(css => applyCssVariables(css))
+                .catch(error => console.error('Error updating CSS variables:', error));
+        }
     </script>
 </head>
 <body>

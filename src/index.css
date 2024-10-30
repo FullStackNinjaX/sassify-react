@@ -8,19 +8,20 @@
     background-color: var(--my-color);
 }*/
 
-
+/*
 :root {
-    --primaryColor: #007bff; /*#007bff*/
-    --secondaryColor: #6c757d; /*#6c757d*/
-    --sidebarColor: #f8f9fa; /*#f8f9fa*/
-    --navbarColor: #98ff00; /*#98ff00*/
-}
+    --primaryColor: #007bff; !*#007bff*!
+    --secondaryColor: #6c757d; !*#6c757d*!
+    --sidebarColor: #f8f9fa; !*#f8f9fa*!
+    --navbarColor: #98ff00; !*#98ff00*!
+}*/
 
 body {
     margin: 0;
     font-family: Popins, sans-serif;
 }
 
+/*
 .navbar {
     background-color: var(--navbarColor);
     color: white;
@@ -99,3 +100,4 @@ body {
     bottom: 0;
     width: 100%;
 }
+*/

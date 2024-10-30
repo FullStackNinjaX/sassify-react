@@ -1,6 +1,7 @@
 import './App.css';
 import {useEffect} from "react";
-import Homepage from "./pages/home.jsx";
+// import Homepage from "./pages/home.jsx";
+import StyleChanger from "./pages/cookieStyle.jsx";
 
 function App() {
     /*const [Id, setThemeId] = useState(0);
@@ -18,7 +19,8 @@ function App() {
 
     return (
         <>
-            <Homepage/>
+            {/*<Homepage/>*/}
+            <StyleChanger/>
             {/*<header className="navbar">
                 <h1 className="navbar-brand">My Themed App</h1>
                 <nav>
