@@ -52,12 +52,12 @@ function Homepage() {
     async function onStyleChange(style) {
         try {
             const styleId = style.value;
-            await axios.post('http://localhost:8082/cookies/create', styleId, {withCredentials: true});
+            await axios.post(`http://localhost:8082/cookies/create?styleId= ${styleId}`);
 
             // await axios.post('http://localhost:8082/cookies/?styleId=', {styleId});
-            const response = await axios.get('http://localhost:8082/cookies/fetch-cookies');
+            /*const response = await axios.get('http://localhost:8082/cookies/fetch-cookies');
             setSassVariables(response.data);
-            applySassVariables(response.data);
+            applySassVariables(response.data);*/
         } catch (error) {
             console.error('Error setting or fetching variables:', error);
         }
