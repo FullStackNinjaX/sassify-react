@@ -1,69 +1,76 @@
 import './App.css';
-import {useEffect} from "react";
-// import Homepage from "./pages/home.jsx";
+import {useEffect, useState} from "react";
 import StyleChanger from "./pages/cookieStyle.jsx";
+import Loader from "./utility/Loader.js";
 
 function App() {
-    /*const [Id, setThemeId] = useState(0);
-    console.log('Theme ID:', themeId);*/
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [defaultCookieValue, setDefaultCookie] = useState({});
+
+    function applyCssVariables(css) {
+        const root = document.documentElement;
+        const cssVariables = css.split(';').filter(line => line.includes('--'));
+
+        cssVariables.forEach(variable => {
+            const [key, value] = variable.split(':');
+            if (key && value) {
+                root.style.setProperty(key.trim(), value.trim());
+            }
+        });
+    }
+
+    const setThemeAndReload = (styleId) => {
+        setIsLoaded(false);
+        fetch(`http://localhost:8082/cookies/create?styleId=${styleId}`, {
+            method: 'POST',
+            credentials: 'include',
+        })
+            .then(() => fetch(`http://localhost:8082/rest/styles/css/${styleId}`))
+            .then(response => response.text())
+            .then(css => {
+                applyCssVariables(css);
+                setIsLoaded(true);
+            })
+            .catch(error => {
+                console.error('Error updating CSS variables:', error);
+                setIsLoaded(true);
+            });
+    };
 
     useEffect(() => {
-        /*fetch(`http://localhost:8082/rest/styles/${Id}`)
-            .then(response => response.json())
-            .then(data => {
-                Object.entries(data).forEach(([key, value]) => {
-                    document.documentElement.style.setProperty(`--${key}`, value);
-                });
-            });*/
-    },);
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            console.log("value", value)
+            const parts = value.split(`; ${name}=`);
+            console.log("parts", parts)
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
 
-    return (
-        <>
-            {/*<Homepage/>*/}
-            <StyleChanger/>
-            {/*<header className="navbar">
-                <h1 className="navbar-brand">My Themed App</h1>
-                <nav>
-                    <ul className="navbar-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+        const themeId = getCookie('THEME_ID') || '1';
+        setDefaultCookie(themeId)
+        fetch(`http://localhost:8082/rest/styles/css/${themeId}`)
+            .then(response => response.text())
+            .then(css => {
+                applyCssVariables(css);
+                setIsLoaded(true);
+            })
+            .catch(error => {
+                console.error('Error loading CSS variables:', error);
+                setIsLoaded(true);
+            });
+    }, []);
 
-                    </ul>
-                </nav>
-            </header>
-
-            <div className="app-container">
-                <aside className="sidebar">
-                    <ul className="sidebar-links">
-                        <li><a href="#section1">Section 1</a></li>
-                        <li><a href="#section2">Section 2</a></li>
-                        <li><a href="#section3">Section 3</a></li>
-                    </ul>
-                </aside>
-
-                <main className="main-content" style={{backgroundColor: 'var(--backgroundColor)'}}>
-                    <h1 style={{color: 'var(--secondaryColor)'}}>Themed Heading</h1>
-                    <p style={{fontSize: 'var(--font-size-base)'}}>This is a themed paragraph.</p>
-
-                    <label>Select Theme:</label>
-                    <select onChange={e => setThemeId(e.target.value)}>
-                        <option value="1">Theme 1</option>
-                        <option value="2">Theme 2</option>
-                        <option value="3">Theme 3</option>
-                        <option value="4">Theme 4</option>
-                        <option value="5">Theme 5</option>
-                        <option value="6">Theme 6</option>
-                        <option value="7">Theme 7</option>
-                    </select>
-                </main>
-            </div>
-
-            <footer className="footer">
-                <p>© 2024 My Themed App. All rights reserved.</p>
-            </footer>*/}
-        </>
-    );
+    if (!isLoaded) {
+        return (<div style={{width: '100%'}}><Loader/></div>);
+    } else {
+        return (
+            <>
+                <StyleChanger setThemeAndReload={setThemeAndReload}
+                              defaultCookieValue={defaultCookieValue}
+                />
+            </>
+        );
+    }
 }
 
 export default App;

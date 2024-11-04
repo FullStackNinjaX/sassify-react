@@ -1,11 +1,24 @@
 import React, {useState} from 'react';
+import Select from "react-select";
 
-function StyleChanger() {
+// eslint-disable-next-line react/prop-types
+function StyleChanger({setThemeAndReload, defaultCookieValue}) {
     const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+    const [styleValue] = useState([
+        {label: 'Ocean Breeze Theme', value: 1},
+        {label: 'Elegant Night Theme', value: 2},
+        {label: 'Sunset Glow Theme', value: 3},
+        {label: 'Forest Whisper Theme', value: 4},
+        {label: 'Royal Gold Theme', value: 5},
+        {label: 'Lavender Dream Theme', value: 6},
+        {label: 'Warm Earth Theme', value: 7}]);
+    const defaultOption = styleValue.find(option => option.value === defaultCookieValue) || styleValue[0];
+    const [selectedOption, setSelectedOption] = useState(defaultOption);
 
-    function handleStyleChange(event) {
-        const styleId = event.target.value;
-        window.setThemeAndReload(styleId); // Call the global function from index.html
+
+    function handleStyleChange(selected) {
+        setSelectedOption(selected);
+        setThemeAndReload(selected.value);
     }
 
     function toggleSidebar() {
@@ -32,6 +45,11 @@ function StyleChanger() {
                 <h1 style={{fontSize: 'var(--font-size-base)', margin: 'var(--margin)'}}>My Themed App</h1>
 
                 <div style={{display: 'flex', alignItems: 'center', color: '#fff',}}>
+                    <Select
+                        options={styleValue}
+                        value={selectedOption}
+                        onChange={handleStyleChange}
+                    />
                     <a href="#home" style={{
                         // color: 'var(--font-color)',
                         margin: '0 var(--margin)',
@@ -51,21 +69,7 @@ function StyleChanger() {
                         fontSize: 'var(--font-size)'
                     }}>Contact</a>
 
-                    <select onChange={handleStyleChange} style={{
-                        marginLeft: 'var(--margin)',
-                        padding: '5px 10px',
-                        fontSize: 'var(--font-size)',
-                        borderRadius: 'var(--border-radius)',
-                        color: 'var(--font-color)',
-                    }}>
-                        <option value="1">Ocean Breeze Theme</option>
-                        <option value="2">Elegant Night Theme</option>
-                        <option value="3">Sunset Glow Theme</option>
-                        <option value="4">Forest Whisper Theme</option>
-                        <option value="5">Royal Gold Theme</option>
-                        <option value="6">Lavender Dream Theme</option>
-                        <option value="7">Warm Earth Theme</option>
-                    </select>
+
                 </div>
             </nav>
 
@@ -77,7 +81,7 @@ function StyleChanger() {
                 color: 'var(--font-color)',
                 minHeight: '100vh',
                 position: 'fixed',
-                top: '60px', // Adjusted for fixed navbar
+                top: '60px',
                 left: 0,
                 transition: 'width 0.3s ease',
                 zIndex: 999
