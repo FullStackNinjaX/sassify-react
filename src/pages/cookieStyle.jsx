@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Select from "react-select";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 // eslint-disable-next-line react/prop-types
 function StyleChanger({setThemeAndReload, defaultCookieValue}) {
@@ -11,13 +12,11 @@ function StyleChanger({setThemeAndReload, defaultCookieValue}) {
         {label: 'Forest Whisper Theme', value: 4},
         {label: 'Royal Gold Theme', value: 5},
         {label: 'Lavender Dream Theme', value: 6},
-        {label: 'Warm Earth Theme', value: 7}]);
-    const defaultOption = styleValue.find(option => option.value === defaultCookieValue) || styleValue[0];
-    const [selectedOption, setSelectedOption] = useState(defaultOption);
-
-
+        {label: 'Warm Earth Theme', value: 7},
+        {label: 'Warm Earth Theme1', value: 9},
+    ]);
+    defaultCookieValue ? styleValue.find(option => option.value === defaultCookieValue) : styleValue[0];
     function handleStyleChange(selected) {
-        setSelectedOption(selected);
         setThemeAndReload(selected.value);
     }
 
@@ -36,46 +35,54 @@ function StyleChanger({setThemeAndReload, defaultCookieValue}) {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                padding: '8px',
+                padding: '12px',
                 background: "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 100%)",
                 color: 'var(--font-color)',
                 borderBottom: '2px solid var(--secondary-color)',
                 zIndex: 1000
             }}>
                 <h1 style={{fontSize: 'var(--font-size-base)', margin: 'var(--margin)'}}>My Themed App</h1>
-
+                <button onClick={toggleSidebar} style={{
+                    marginBottom: 'var(--margin)',
+                    backgroundColor: 'var(--primary-color)',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 'var(--border-radius)',
+                    padding: '5px',
+                    cursor: 'pointer',
+                    display: 'none'
+                    // display: 'flex',
+                    // alignItems: 'center'
+                }}>
+                    <i className="bi bi-list"></i>
+                    {/*<span style={{marginLeft: '5px'}}>{isSidebarCollapsed ? 'Expand' : 'Collapse'}</span>*/}
+                </button>
                 <div style={{display: 'flex', alignItems: 'center', color: '#fff',}}>
                     <Select
                         options={styleValue}
-                        value={selectedOption}
                         onChange={handleStyleChange}
                     />
                     <a href="#home" style={{
-                        // color: 'var(--font-color)',
                         margin: '0 var(--margin)',
                         textDecoration: 'none',
                         fontSize: 'var(--font-size)'
                     }}>Home</a>
                     <a href="#about" style={{
-                        // color: 'var(--font-color)',
                         margin: '0 var(--margin)',
                         textDecoration: 'none',
                         fontSize: 'var(--font-size)'
                     }}>About</a>
                     <a href="#contact" style={{
-                        // color: 'var(--font-color)',
                         margin: '0 var(--margin)',
                         textDecoration: 'none',
                         fontSize: 'var(--font-size)'
                     }}>Contact</a>
-
-
                 </div>
             </nav>
 
             {/* Sidebar */}
             <aside style={{
-                width: isSidebarCollapsed ? '80px' : '250px',
+                width: isSidebarCollapsed ? '30px' : '250px',
                 padding: '20px',
                 backgroundColor: 'var(--secondary-color)',
                 color: 'var(--font-color)',
@@ -86,17 +93,7 @@ function StyleChanger({setThemeAndReload, defaultCookieValue}) {
                 transition: 'width 0.3s ease',
                 zIndex: 999
             }}>
-                <button onClick={toggleSidebar} style={{
-                    marginBottom: 'var(--margin)',
-                    backgroundColor: 'var(--primary-color)',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: 'var(--border-radius)',
-                    padding: '5px',
-                    cursor: 'pointer'
-                }}>
-                    {isSidebarCollapsed ? 'Expand' : 'Collapse'}
-                </button>
+
                 {!isSidebarCollapsed && (
                     <>
                         <h2 style={{fontSize: 'var(--font-size-base)', marginBottom: 'var(--margin)'}}>Sidebar</h2>
@@ -120,8 +117,8 @@ function StyleChanger({setThemeAndReload, defaultCookieValue}) {
 
             {/* Main Content */}
             <div style={{
-                marginLeft: isSidebarCollapsed ? '120px' : '290px', // Adjusted for sidebar width
-                paddingTop: '80px', // Offset for fixed navbar
+                marginLeft: isSidebarCollapsed ? '65px' : '290px',
+                paddingTop: '80px',
                 padding: '20px',
                 backgroundColor: 'var(--background-color)',
                 top: '10px',
