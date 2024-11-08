@@ -1,11 +1,14 @@
 import './App.css';
 import {useEffect, useState} from "react";
-import StyleChanger from "./pages/cookieStyle.jsx";
+// import StyleChanger from "./pages/cookieStyle.jsx";
 import Loader from "./utility/Loader.js";
+// import Homepage from "./pages/home.jsx";
+import Trail from "./pages/trail.jsx";
 
 function App() {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [defaultCookieValue, setDefaultCookieValue] = useState('1');
+
+    // const [defaultCookieValue, setDefaultCookieValue] = useState('1');
 
     function applyCssVariables(css) {
         const root = document.documentElement;
@@ -47,7 +50,7 @@ function App() {
         root.style.setProperty('--next-btn-font-size', '11px');
     }
 
-    const setThemeAndReload = (styleId) => {
+    /*const setThemeAndReload = (styleId) => {
         setIsLoaded(false);
         fetch(`http://localhost:8082/cookies/create?styleId=${styleId}`, {
             method: 'POST',
@@ -64,7 +67,7 @@ function App() {
                 applyDefaultCssVariables();
                 setIsLoaded(true);
             });
-    };
+    };*/
 
     function getCookie(name) {
         const value = `; ${document.cookie}`;
@@ -74,7 +77,7 @@ function App() {
 
     useEffect(() => {
         const themeId = getCookie('THEME_ID') || '1';
-        setDefaultCookieValue(themeId);
+        // setDefaultCookieValue(themeId);
 
         fetch(`http://localhost:8082/rest/styles/css/${themeId}`)
             .then(response => response.text())
@@ -94,7 +97,8 @@ function App() {
     } else {
         return (
             <>
-                <StyleChanger setThemeAndReload={setThemeAndReload} defaultCookieValue={defaultCookieValue}/>
+                {/*<StyleChanger setThemeAndReload={setThemeAndReload} defaultCookieValue={defaultCookieValue}/>*/}
+                <Trail/>
             </>
         );
     }
